@@ -52,7 +52,6 @@ export const AuthProvider = ({ children }) => {
   const logOut = useCallback(() => {
     localStorage.clear();
     setUser(null);
-    navigate("/auth");
   }, []);
 
   const value = useMemo(

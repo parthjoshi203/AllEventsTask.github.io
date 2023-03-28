@@ -7,7 +7,7 @@ const AuthLayout = () => {
   const navigate = useNavigate();
 
   if (user) {
-    navigate("/");
+    return navigate("/");
   }
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-slate-800">

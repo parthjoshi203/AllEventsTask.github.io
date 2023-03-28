@@ -3,7 +3,6 @@ import { Field } from "formik";
 import TextInput from "../components/textInput";
 import Checkbox from "../components/checkbox";
 import FormikForm from "../components/formikForm";
-// import { UserIcon } from "@heroicons/react/20/solid";
 import { AuthContext } from "../context/authContext";
 
 const fields = [
@@ -51,9 +50,8 @@ const Login = () => {
   return (
     <>
       <h1 className="font-bold -mb-5 flex text-2xl justify-center text-center text-gray-800">
-        LOGIN
+        LOGIN PAGE
       </h1>
-
       <FormikForm
         fields={fields.slice(0, 2)}
         initialValues={{
@@ -75,6 +73,15 @@ const Login = () => {
               Forgot your password?
             </a>
           </div>
+        </div>
+        <div className="gap-2 flex">
+          <p>Don't have an account?</p>
+          <a
+            href="register"
+            className="font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            Sign up
+          </a>
         </div>
       </FormikForm>
     </>

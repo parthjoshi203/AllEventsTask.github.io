@@ -1,7 +1,8 @@
+import clsx from "clsx";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 
-const FormikForm = ({ btnText, fields, children, ...rest }) => {
+const FormikForm = ({ btnText, fields, children, placeholder, ...rest }) => {
   return (
     <Formik {...rest}>
       {({ errors }) => (
@@ -12,7 +13,11 @@ const FormikForm = ({ btnText, fields, children, ...rest }) => {
               {errors.serverError}
             </p>
           )}
-          <div className="-space-y-px rounded-md shadow-sm">
+          <div
+            className={clsx("-space-y-px rounded-md shadow-sm", {
+              "space-y-3": !!rest.event,
+            })}
+          >
             {fields.map((x) => (
               <Field key={x.id} {...x} />
             ))}

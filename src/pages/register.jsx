@@ -62,7 +62,7 @@ const Register = () => {
   return (
     <>
       <h1 className="font-bold -mb-5 flex text-2xl justify-center text-center text-gray-800">
-        REGISTER
+        REGISTER PAGE
       </h1>
       <FormikForm
         fields={fields}
@@ -75,6 +75,15 @@ const Register = () => {
         onSubmit={register}
         btnText="Sign up"
       />
+      <div className="gap-2 flex">
+        <p>Already have an account?</p>
+        <a
+          href="login"
+          className="font-medium text-indigo-600 hover:text-indigo-500"
+        >
+          Sign in
+        </a>
+      </div>
     </>
   );
 };

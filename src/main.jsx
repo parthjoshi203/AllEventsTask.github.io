@@ -22,8 +22,8 @@ const router = createBrowserRouter(
         <Route index element={<CreateEvent />} />
       </Route>
       <Route path="/auth" element={<AuthLayout />}>
-        <Route index element={<Register />} />
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Route>
     </>
   )
