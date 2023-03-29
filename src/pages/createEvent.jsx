@@ -4,6 +4,7 @@ import FormikForm from "../components/formikForm";
 import Select from "../components/select";
 import TextInput from "../components/textInput";
 import { AuthContext } from "../context/authContext";
+import { ProductContext } from "../context/productContext";
 
 const fields = [
   {
@@ -47,10 +48,10 @@ const fields = [
   },
   {
     component: Select,
-    id: "City",
+    id: "city",
     name: "city",
     type: "location",
-    placeholder: "Select City",
+    placeholder: "City",
     className: "rounded-md",
     event: "event",
     options: [
@@ -94,10 +95,7 @@ const fields = [
 
 const CreateEvent = () => {
   const { logOut } = useContext(AuthContext);
-  const onSubmit = (values, { setSubmitting }) => {
-    console.log(values);
-    setSubmitting(false);
-  };
+  const { addEvent } = useContext(ProductContext);
 
   return (
     <>
@@ -107,10 +105,11 @@ const CreateEvent = () => {
           eventName: "",
           startDate: "",
           endDate: "",
+          city: "",
           location: "",
           photo: "",
         }}
-        onSubmit={onSubmit}
+        onSubmit={addEvent}
         event
         btnText="Create Event"
       ></FormikForm>

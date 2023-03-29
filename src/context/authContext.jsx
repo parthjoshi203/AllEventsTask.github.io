@@ -18,10 +18,9 @@ export const AuthProvider = ({ children }) => {
 
   const register = useCallback(async (values, actions) => {
     try {
-      console.log(actions);
       const { confirmPassword, ...rest } = values;
       console.log(rest);
-      const res = await axiosInstance.post("register", rest);
+      const res = await axiosInstance.post("auth/register", rest);
       window.localStorage.setItem("token", JSON.stringify(res));
       setUser(res);
       actions.resetForm();
@@ -38,8 +37,9 @@ export const AuthProvider = ({ children }) => {
       console.log(actions);
       const { rememberMe, ...rest } = values;
       console.log(rest);
-      const res = await axiosInstance.post("login", rest);
+      const res = await axiosInstance.post("auth/login", rest);
       window.localStorage.setItem("token", JSON.stringify(res));
+      console.log(res);
       setUser(res);
       actions.resetForm();
     } catch (error) {
@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const logOut = useCallback(() => {
     localStorage.clear();
+    console.log(user);
     setUser(null);
   }, []);
 

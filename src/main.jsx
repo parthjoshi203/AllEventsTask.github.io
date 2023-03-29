@@ -14,11 +14,19 @@ import AuthLayout from "./layout/authLayout";
 import CreateEvent from "./pages/createEvent";
 import { AuthProvider } from "./context/authContext";
 import ErrorBoundary from "../ErrorBoundary";
+import { ProductProvider } from "./context/productContext";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<MainLayout />}>
+      <Route
+        path="/"
+        element={
+          <ProductProvider>
+            <MainLayout />
+          </ProductProvider>
+        }
+      >
         <Route index element={<CreateEvent />} />
       </Route>
       <Route path="/auth" element={<AuthLayout />}>
