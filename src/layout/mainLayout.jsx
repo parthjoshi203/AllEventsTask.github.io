@@ -13,13 +13,9 @@ const MainLayout = () => {
   }
 
   return (
-    <div>
+    <div className="h-screen">
       {/* <Header /> */}
-      <div className="h-screen w-full flex justify-center">
-        <div className="w-3/4">
-          <Outlet />
-        </div>
-      </div>
+      <Outlet />
       {/* <Footer /> */}
     </div>
   );

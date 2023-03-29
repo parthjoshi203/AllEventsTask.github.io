@@ -98,7 +98,7 @@ const CreateEvent = () => {
   const { addEvent } = useContext(ProductContext);
 
   return (
-    <>
+    <div className="flex flex-col px-20">
       <FormikForm
         fields={fields}
         initialValues={{
@@ -116,11 +116,11 @@ const CreateEvent = () => {
       <button
         type="button"
         onClick={logOut}
-        className="flex  w-full mt-6 py-3 items-center justify-center rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+        className="flex mt-6 py-3 items-center justify-center rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
       >
         Logout
       </button>
-    </>
+    </div>
   );
 };
 
