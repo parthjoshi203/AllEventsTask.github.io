@@ -15,6 +15,7 @@ import CreateEvent from "./pages/createEvent";
 import { AuthProvider } from "./context/authContext";
 import ErrorBoundary from "../ErrorBoundary";
 import { ProductProvider } from "./context/productContext";
+import ListingEvents from "./pages/listingEvents";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
         }
       >
         <Route index element={<CreateEvent />} />
+        <Route path="events" element={<ListingEvents />} />
       </Route>
       <Route path="/auth" element={<AuthLayout />}>
         <Route path="login" element={<Login />} />

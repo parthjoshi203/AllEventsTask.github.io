@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useMemo } from "react";
 import { useCallback } from "react";
 import axiosInstance from "../utils/axiosInstance";
-
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
