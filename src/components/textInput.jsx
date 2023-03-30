@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 
 const TextInput = ({
-  field, // { name, value, onChange, onBlur }
+  field,
   form: { touched, errors },
   meta,
   className,
