@@ -1,39 +1,40 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { ProductContext } from "../context/productContext";
+import React, { useContext, useEffect, useState } from "react";
+import { ProductContext } from "../context/eventContext";
 import { XCircleIcon } from "@heroicons/react/20/solid";
-import TextInput from "../components/textInput";
 import FormikForm from "../components/formikForm";
 import Select from "../components/select";
+import TextInput from "../components/textInput";
 
 const fields = [
+  {
+    component: Select,
+    id: "category",
+    name: "category",
+    placeholder: "Filter By Category",
+    event: "event",
+    options: [
+      { text: "Business", value: "Business" },
+      { text: "Education", value: "Education" },
+      { text: "Arts and Entertainment", value: "Arts and Entertainment" },
+      { text: "Community and Social", value: "Community and Social" },
+      { text: "Sports and Fitness", value: "Sports and Fitness" },
+      { text: "Technology", value: "Technology" },
+    ],
+  },
   {
     component: TextInput,
     id: "date",
     name: "date",
     type: "date",
-    placeholder: "Filter data by Date:",
-    event: "event",
-  },
-  {
-    component: TextInput,
-    id: "category",
-    name: "category",
-    type: "text",
-    placeholder: "Filter data by Category:",
+    placeholder: "Filter By Date:",
     event: "event",
   },
   {
     component: Select,
     id: "city",
     name: "city",
-    type: "location",
-    placeholder: "City",
+    type: "text",
+    placeholder: "Filter By City",
     event: "event",
     options: [
       { text: "Ahmedabad", value: "Ahmedabaad" },
@@ -60,91 +61,21 @@ const AllEvents = () => {
   }, [products]);
 
   const [filteredData, setFilteredData] = useState(null);
-  console.log("f", filteredData);
-  // const [filterType, setFilterType] = useState("all");
-  // const [filteredData, setFilteredData] = useState(products);
-
-  //start
-  // const [filters, setFilters] = useState({});
-
-  // const handleFilterChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-  // };
-
-  // const handleFormSubmit = (event) => {
-  //   // setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-  //   const filtered = products.filter((item) => {
-  //     let match = true;
-  //     for (const key in filters) {
-  //       if (item[key] !== filters[key]) {
-  //         match = false;
-  //         break;
-  //       }
-  //     }
-  //     return match;
-  //   });
-  //   setFilteredData(filtered);
-  // };
-
-  // console.log("r", filteredData);
-
-  // const filterBtns = useMemo(
-  //   () => [
-  //     {
-  //       text: "Filter By Ca",
-  //       value: "all",
-  //     },
-  //     {
-  //       text: "Pending",
-  //       value: "pending",
-  //     },
-  //     {
-  //       text: "Completed",
-  //       value: "completed",
-  //     },
-  //     {
-  //       text: "none",
-  //       value: "none",
-  //     },
-  //   ],
-  //   []
-  // );
-
-  // const changeFilterType = useCallback((ft) => {
-  //   setFilterType(ft);
-  // }, []);
-
-  // const handleFilter = (filters) => {
-  //   const filtered = products.filter((item) => {
-  //     let match = true;
-  //     for (const key in filters) {
-  //       if (item[key] !== filters[key]) {
-  //         match = false;
-  //         break;
-  //       }
-  //     }
-  //     return match;
-  //   });
-  //   setFilteredData(filtered);
-  // };
 
   const filterData = (values) => {
     const { date, category, city } = values;
 
-    // filter the data based on the selected filter options
     let filteredData = products.filter((item) => {
-      // check if item matches filterOption1
-      if (date && item.date !== date) {
-        return false;
+      if (item.startDate <= date) {
+        if (item.endDate >= date) {
+          return true;
+        }
       }
 
-      // check if item matches filterOption2
       if (category && item.category !== category) {
         return false;
       }
 
-      // check if item matches filterOption3
       if (city && item.city !== city) {
         return false;
       }
@@ -156,10 +87,17 @@ const AllEvents = () => {
   };
 
   const handleSubmit = (values, actions) => {
-    const filteredData2 = filterData(values);
-    setFilteredData(filteredData2);
+    try {
+      const filteredData2 = filterData(values);
+      if (filteredData2.length === 0) {
+        alert("no records found");
+      }
+      setFilteredData(filteredData2);
 
-    actions.resetForm();
+      actions.resetForm();
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   if (loading) {
@@ -170,39 +108,13 @@ const AllEvents = () => {
     return <h1>{error?.message}</h1>;
   }
 
-  const han = () => {
+  const handleClick = () => {
     setFilteredData(products);
   };
 
   return (
     <div className="flex w-full h-screen">
       <div className="w-1/4 mr-10 bg-green-300 h-screen">
-        {/* <form className="flex flex-col gap-3" onSubmit={handleFormSubmit}>
-          <label>
-            <p>Filter data by Date:</p>
-            <input type="date" name="date" onChange={handleFilterChange} />
-          </label>
-          <label>
-            <p>Filter data by Category:</p>
-            <input type="" name="age" onChange={handleFilterChange} />
-          </label>
-          <label>
-            <p>Filter data by City:</p>
-            <select name="city" onChange={handleFilterChange}>
-              <option>--Select--</option>
-              <option value="Ahmedabad">Ahmedabad</option>
-              <option value="Amreli">Amreli</option>
-              <option value="Junagadh">Junagadh</option>
-              <option value="Gandhinagar">Gandhinagar</option>
-            </select>
-          </label>
-          <button
-            type="submit"
-            className="justify-center bg-red-500 mx-auto px-10 rounded-md"
-          >
-            Filter
-          </button>
-        </form> */}
         <FormikForm
           fields={fields}
           initialValues={{
@@ -221,7 +133,7 @@ const AllEvents = () => {
             <XCircleIcon
               className="h-7 w-7 -ml-7 justify-end text-gray-700 hover:text-gray-500"
               aria-hidden="true"
-              onClick={han}
+              onClick={handleClick}
             />
           )}
         </div>
@@ -234,15 +146,19 @@ const AllEvents = () => {
                   {event.eventName}
                 </h3>
                 <h3 className="flex gap-2">
+                  <p className="font-medium text-gray-800">Category: </p>
+                  {event.category}
+                </h3>
+                <h3 className="flex gap-2">
                   <p className="font-medium text-gray-800">Location:</p>{" "}
                   {event.location}
                 </h3>
                 <h3 className="flex gap-2">
-                  <p className="font-medium text-gray-800">Date: </p>
+                  <p className="font-medium text-gray-800">Start Date: </p>
                   {event.startDate}
                 </h3>
                 <h3 className="flex gap-2">
-                  <p className="font-medium text-gray-800">Date: </p>
+                  <p className="font-medium text-gray-800">End Date: </p>
                   {event.endDate}
                 </h3>
                 <h3 className="flex gap-2">
@@ -253,153 +169,16 @@ const AllEvents = () => {
                   <p className="font-medium text-gray-800">City: </p>
                   {event.city}
                 </h3>
+                <h3 className="flex gap-2">
+                  <p className="font-medium text-gray-800">Description: </p>
+                  {event.description}
+                </h3>
               </div>
             ))}
         </div>
-        {/* <div className="w-full flex-1 overflow-auto ">
-        {filteredData.map((event, i) => (
-          <div key={i} className="mb-4">
-            <h2>{event.eventName}</h2>
-            <p>{event.location}</p>
-            <p>Location: {event.location}</p>
-            <p>Date: {event.startDate}</p>
-            <p>Date: {event.endDate}</p>
-            <p>Email: {event.userEmail}</p>
-            <p>Photo: {event.photo}</p>
-            <p>City: {event.city}</p>
-          </div>
-        ))}
-      </div> */}
-
-        {/* <div className="w-full flex">
-        {filterBtns.map((item) => (
-          <button
-            key={item.value}
-            className="btn flex-1 rounded-none inline-flex justify-center border border-transparent bg-indigo-600 py-2 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            type="button"
-            onClick={() => {
-              changeFilterType(item.value);
-              handleFilter({ city: "Amreli" });
-            }}
-          >
-            {item.text}
-          </button>
-        ))}
-      </div> */}
       </div>
     </div>
   );
 };
 
 export default AllEvents;
-
-// import React, {
-//   useCallback,
-//   useContext,
-//   useEffect,
-//   useMemo,
-//   useState,
-// } from "react";
-// import { ProductContext } from "../context/productContext";
-
-// const AllEvents = () => {
-//   const {
-//     productsState: { products, loading, error },
-//     loadProducts,
-//   } = useContext(ProductContext);
-
-//   useEffect(() => {
-//     loadProducts();
-//   }, []);
-//   const [filterType, setFilterType] = useState("all");
-//   const [filteredData, setFilteredData] = useState(products);
-
-//   console.log("r", filteredData);
-
-//   const filterBtns = useMemo(
-//     () => [
-//       {
-//         text: "All",
-//         value: "all",
-//       },
-//       {
-//         text: "Pending",
-//         value: "pending",
-//       },
-//       {
-//         text: "Completed",
-//         value: "completed",
-//       },
-//       {
-//         text: "none",
-//         value: "none",
-//       },
-//     ],
-//     []
-//   );
-
-//   const changeFilterType = useCallback((ft) => {
-//     setFilterType(ft);
-//   }, []);
-
-//   const handleFilter = (filters) => {
-//     const filtered = products.filter((item) => {
-//       let match = true;
-//       for (const key in filters) {
-//         if (item[key] !== filters[key]) {
-//           match = false;
-//           break;
-//         }
-//       }
-//       return match;
-//     });
-//     setFilteredData(filtered);
-//   };
-
-//   if (loading) {
-//     return <h1>Loading...</h1>;
-//   }
-
-//   if (error) {
-//     return <h1>{error?.message}</h1>;
-//   }
-
-//   return (
-//     <div className="flex flex-col items-center h-screen">
-//       <h1 className="m-10  text-black text-center">EVENTS</h1>
-//       <div className="w-full flex-1 overflow-auto ">
-//         {filteredData.map((event, i) => (
-//           <div key={i} className="mb-4">
-//             <h2>{event.eventName}</h2>
-//             <p>{event.location}</p>
-//             <p>Location: {event.location}</p>
-//             <p>Date: {event.startDate}</p>
-//             <p>Date: {event.endDate}</p>
-//             <p>Email: {event.userEmail}</p>
-//             <p>Photo: {event.photo}</p>
-//             <p>City: {event.city}</p>
-//             {/* add more event details as needed */}
-//           </div>
-//         ))}
-//       </div>
-
-//       <div className="w-full flex">
-//         {filterBtns.map((item) => (
-//           <button
-//             key={item.value}
-//             className="btn flex-1 rounded-none inline-flex justify-center border border-transparent bg-indigo-600 py-2 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-//             type="button"
-//             onClick={() => {
-//               changeFilterType(item.value);
-//               handleFilter({ city: "Amreli" });
-//             }}
-//           >
-//             {item.text}
-//           </button>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AllEvents;

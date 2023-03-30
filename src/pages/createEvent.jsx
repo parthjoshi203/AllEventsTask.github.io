@@ -1,10 +1,9 @@
-import { Field } from "formik";
 import React, { useContext } from "react";
 import FormikForm from "../components/formikForm";
 import Select from "../components/select";
 import TextInput from "../components/textInput";
 import { AuthContext } from "../context/authContext";
-import { ProductContext } from "../context/productContext";
+import { ProductContext } from "../context/eventContext";
 
 const fields = [
   {
@@ -15,6 +14,26 @@ const fields = [
     placeholder: "Event Name",
     className: "rounded-md",
     event: "event",
+    validate: (value) => {
+      if (!value) return "Required...";
+      return "";
+    },
+  },
+  {
+    component: Select,
+    id: "category",
+    name: "category",
+    placeholder: "Category",
+    className: "rounded-md",
+    event: "event",
+    options: [
+      { text: "Business", value: "Business" },
+      { text: "Education", value: "Education" },
+      { text: "Arts and Entertainment", value: "Arts and Entertainment" },
+      { text: "Community and Social", value: "Community and Social" },
+      { text: "Sports and Fitness", value: "Sports and Fitness" },
+      { text: "Technology", value: "Technology" },
+    ],
     validate: (value) => {
       if (!value) return "Required...";
       return "";
@@ -50,7 +69,6 @@ const fields = [
     component: Select,
     id: "city",
     name: "city",
-    type: "location",
     placeholder: "City",
     className: "rounded-md",
     event: "event",
@@ -69,8 +87,21 @@ const fields = [
     component: TextInput,
     id: "location",
     name: "location",
-    type: "location",
+    type: "text",
     placeholder: "Location",
+    className: "rounded-md",
+    event: "event",
+    validate: (value) => {
+      if (!value) return "Required...";
+      return "";
+    },
+  },
+  {
+    component: TextInput,
+    id: "description",
+    name: "description",
+    type: "text",
+    placeholder: "Description",
     className: "rounded-md",
     event: "event",
     validate: (value) => {
@@ -93,6 +124,14 @@ const fields = [
   },
 ];
 
+const validateEventDates = (values) => {
+  const errors = {};
+  if (values.startDate >= values.endDate) {
+    errors.endDate = "End date must be after start date";
+  }
+  return errors;
+};
+
 const CreateEvent = () => {
   const { logOut } = useContext(AuthContext);
   const { addEvent } = useContext(ProductContext);
@@ -100,6 +139,7 @@ const CreateEvent = () => {
   return (
     <div className="flex flex-col px-20">
       <FormikForm
+        validate={validateEventDates}
         fields={fields}
         initialValues={{
           eventName: "",

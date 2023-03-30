@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Field } from "formik";
 import TextInput from "../components/textInput";
-import Checkbox from "../components/checkbox";
 import FormikForm from "../components/formikForm";
 import { AuthContext } from "../context/authContext";
 
@@ -34,16 +33,6 @@ const fields = [
       return "";
     },
   },
-  {
-    component: Checkbox,
-    name: "rememberMe",
-    options: [
-      {
-        id: "rememberMe",
-        label: "Remember Me",
-      },
-    ],
-  },
 ];
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -57,18 +46,15 @@ const Login = () => {
         initialValues={{
           email: "",
           password: "",
-          rememberMe: [],
         }}
         onSubmit={login}
         btnText="Sign in"
       >
-        <div className="flex items-center justify-between">
-          <Field {...fields.find((x) => x.name === "rememberMe")} />
-
-          <div className="text-sm">
+        <div className=" flex">
+          <div className="text-sm  ">
             <a
               href="#"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
+              className="font-medium  text-indigo-600 hover:text-indigo-500"
             >
               Forgot your password?
             </a>

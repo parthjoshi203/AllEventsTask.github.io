@@ -9,7 +9,7 @@ import axiosInstance from "../utils/axiosInstance";
 import {
   productsInitialState,
   productsReducer,
-} from "../reducers/productsReducer";
+} from "../reducers/eventsReducer";
 
 export const ProductContext = createContext();
 
@@ -22,13 +22,11 @@ export const ProductProvider = ({ children }) => {
 
   const loadProducts = useCallback(async () => {
     try {
-      dispatch({ type: "LOAD_PRODUCTS_REQUEST" });
+      dispatch({ type: "LOAD_EVENTS_REQUEST" });
       const res = await axiosInstance.get("event/get");
-      console.log("res", res.result);
-      console.log("typo", typeof res);
-      dispatch({ type: "LOAD_PRODUCTS_SUCCESS", payload: res.result });
+      dispatch({ type: "LOAD_EVENTS_SUCCESS", payload: res.result });
     } catch (error) {
-      dispatch({ type: "LOAD_PRODUCTS_FAIL", payload: error });
+      dispatch({ type: "LOAD_EVENTS_FAIL", payload: error });
     }
   }, []);
 
@@ -37,17 +35,7 @@ export const ProductProvider = ({ children }) => {
       .email;
 
     try {
-      const { eventName, startDate, endDate, city, location, photo } = values;
-      const request = {
-        eventName,
-        startDate,
-        endDate,
-        city,
-        location,
-        photo,
-        userEmail: email,
-      };
-      console.log(request);
+      const request = { ...values, userEmail: email };
       const res = await axiosInstance.post("event/add", request);
       console.log(res);
       actions.resetForm();
@@ -61,14 +49,10 @@ export const ProductProvider = ({ children }) => {
 
   const getEvents = useCallback(async () => {
     try {
-      console.log("hy");
       const res = await axiosInstance.get("event/get");
-      console.log("type", typeof res);
-      // const data = await res.json();
       console.log(res);
       setEvents(res);
     } catch (error) {
-      // console.log(JSON.stringify(error));
       console.log(error.message);
     }
   }, []);

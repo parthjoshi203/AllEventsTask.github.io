@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
-import Footer from "../components/footer";
-import Header from "../components/header";
+// import Footer from "../components/footer";
+// import Header from "../components/header";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 

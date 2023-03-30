@@ -1,18 +1,18 @@
-export const productsInitialState = {
-  products: [],
+export const eventsInitialState = {
+  events: [],
   loading: false,
   error: null,
 };
 
-export const productsReducer = (state, { type, payload }) => {
+export const eventsReducer = (state, { type, payload }) => {
   switch (type) {
-    case "LOAD_PRODUCTS_REQUEST":
+    case "LOAD_EVENTS_REQUEST":
       return { ...state, loading: true };
 
-    case "LOAD_PRODUCTS_SUCCESS":
+    case "LOAD_EVENTS_SUCCESS":
       return { ...state, loading: false, products: payload };
 
-    case "LOAD_PRODUCTS_FAIL":
+    case "LOAD_EVENTTS_FAIL":
       return { ...state, loading: false, error: payload };
 
     default:
