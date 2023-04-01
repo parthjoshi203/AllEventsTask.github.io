@@ -3,7 +3,7 @@ import FormikForm from "../components/formikForm";
 import Select from "../components/select";
 import TextInput from "../components/textInput";
 import { AuthContext } from "../context/authContext";
-import { ProductContext } from "../context/eventContext";
+import { EventContext } from "../context/eventContext";
 
 const fields = [
   {
@@ -134,7 +134,7 @@ const validateEventDates = (values) => {
 
 const CreateEvent = () => {
   const { logOut } = useContext(AuthContext);
-  const { addEvent } = useContext(ProductContext);
+  const { addEvent } = useContext(EventContext);
 
   return (
     <div className="flex flex-col px-20">

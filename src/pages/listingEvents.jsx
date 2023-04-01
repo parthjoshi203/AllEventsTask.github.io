@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ProductContext } from "../context/eventContext";
+import { EventContext } from "../context/eventContext";
 import { XCircleIcon } from "@heroicons/react/20/solid";
 import FormikForm from "../components/formikForm";
 import Select from "../components/select";
@@ -49,7 +49,7 @@ const AllEvents = () => {
   const {
     productsState: { products, loading, error },
     loadProducts,
-  } = useContext(ProductContext);
+  } = useContext(EventContext);
 
   useEffect(() => {
     loadProducts();

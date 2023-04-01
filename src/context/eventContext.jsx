@@ -6,21 +6,15 @@ import React, {
   useState,
 } from "react";
 import axiosInstance from "../utils/axiosInstance";
-import {
-  productsInitialState,
-  productsReducer,
-} from "../reducers/eventsReducer";
+import { eventsInitialState, eventsReducer } from "../reducers/eventsReducer";
 
-export const ProductContext = createContext();
+export const EventContext = createContext();
 
-export const ProductProvider = ({ children }) => {
+export const EventProvider = ({ children }) => {
   const [events, setEvents] = useState([]);
-  const [productsState, dispatch] = useReducer(
-    productsReducer,
-    productsInitialState
-  );
+  const [eventsState, dispatch] = useReducer(eventsReducer, eventsInitialState);
 
-  const loadProducts = useCallback(async () => {
+  const loadEvents = useCallback(async () => {
     try {
       dispatch({ type: "LOAD_EVENTS_REQUEST" });
       const res = await axiosInstance.get("event/get");
@@ -59,16 +53,16 @@ export const ProductProvider = ({ children }) => {
 
   const value = useMemo(
     () => ({
-      productsState,
-      loadProducts,
+      eventsState,
+      loadEvents,
       addEvent,
       getEvents,
       events,
     }),
-    [productsState]
+    [eventsState]
   );
 
   return (
-    <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
+    <EventContext.Provider value={value}>{children}</EventContext.Provider>
   );
 };
