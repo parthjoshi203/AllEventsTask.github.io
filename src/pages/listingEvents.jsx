@@ -47,25 +47,25 @@ const fields = [
 
 const AllEvents = () => {
   const {
-    productsState: { products, loading, error },
-    loadProducts,
+    eventsState: { events, loading, error },
+    loadEvents,
   } = useContext(EventContext);
 
   useEffect(() => {
-    loadProducts();
+    loadEvents();
   }, []);
   useEffect(() => {
-    if (products) {
-      setFilteredData(products);
+    if (events) {
+      setFilteredData(events);
     }
-  }, [products]);
+  }, [events]);
 
   const [filteredData, setFilteredData] = useState(null);
 
   const filterData = (values) => {
     const { date, category, city } = values;
 
-    let filteredData = products.filter((item) => {
+    let filteredData = events.filter((item) => {
       if (item.startDate <= date) {
         if (item.endDate >= date) {
           return true;
@@ -88,11 +88,12 @@ const AllEvents = () => {
 
   const handleSubmit = (values, actions) => {
     try {
-      const filteredData2 = filterData(values);
+      let filteredData2 = filterData(values);
       if (filteredData2.length === 0) {
         alert("no records found");
+        filteredData2 = filterData(values);
       }
-      setFilteredData(filteredData2);
+      filteredData2(filteredData2);
 
       actions.resetForm();
     } catch (error) {
@@ -109,7 +110,7 @@ const AllEvents = () => {
   }
 
   const handleClick = () => {
-    setFilteredData(products);
+    setFilteredData(events);
   };
 
   return (
@@ -129,7 +130,7 @@ const AllEvents = () => {
       <div className="flex flex-col flex-1">
         <div className="flex items-center mr-5">
           <h1 className="m-10 flex-1 text-center text-3xl font-bold">EVENTS</h1>
-          {!(filteredData === products) && (
+          {!(filteredData === events) && (
             <XCircleIcon
               className="h-7 w-7 -ml-7 justify-end text-gray-700 hover:text-gray-500"
               aria-hidden="true"

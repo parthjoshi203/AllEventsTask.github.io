@@ -10,7 +10,7 @@ export const eventsReducer = (state, { type, payload }) => {
       return { ...state, loading: true };
 
     case "LOAD_EVENTS_SUCCESS":
-      return { ...state, loading: false, products: payload };
+      return { ...state, loading: false, events: payload };
 
     case "LOAD_EVENTTS_FAIL":
       return { ...state, loading: false, error: payload };
